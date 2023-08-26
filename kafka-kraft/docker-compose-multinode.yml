@@ -1,19 +1,5 @@
 version: "3"
 services:
-  kafka-ui:
-    container_name: kafka-ui
-    image: provectuslabs/kafka-ui:latest
-    ports:
-      - 8080:8080
-    depends_on:
-      - kafka01
-      - kafka02
-      - kafka03
-    environment:
-      KAFKA_CLUSTERS_0_NAME: local
-      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka01:9092,kafka02:9092,kafka03:9092
-    networks:
-      - kafka-net
   kafka01:
     image: 'bitnami/kafka:latest'
     volumes:

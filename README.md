@@ -6,7 +6,7 @@
 - [https://levelup.gitconnected.com/kraft-kafka-cluster-with-docker-e79a97d19f2c](https://levelup.gitconnected.com/kraft-kafka-cluster-with-docker-e79a97d19f2c)
 - [https://kafka.apache.org/documentation/#quickstart](https://kafka.apache.org/documentation/#quickstart)
 
-# Generate Cluster UUID
+# Generate Cluster UUID(optional)
 
 ```bash
 docker run --rm bitnami/kafka:latest /opt/bitnami/kafka/bin/kafka-storage.sh random-uuid
@@ -22,10 +22,16 @@ kafka 16:00:34.67
 10HT3ErKTyKq9iXHk0EfBg
 ```
 
+# Create networks(optional)
+
+```bash
+docker network create kafka-net
+```
+
 # single node
 
 ```bash
-$ docker compose -f docker-compose-singlenode.yml
+$ docker compose -f docker-compose-singlenode.yml up
 ```
 
 ```bash
@@ -74,7 +80,7 @@ networks:
 # multi node
 
 ```bash
-$ docker compose -f docker-compose-multinode.yml
+$ docker compose -f docker-compose-multinode.yml up
 ```
 
 ```bash
