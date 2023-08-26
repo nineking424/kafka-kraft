@@ -59,7 +59,7 @@ services:
     environment:
       ALLOW_PLAINTEXT_LISTENER: yes
       KAFKA_ENABLE_KRAFT: yes
-      KAFKA_KRAFT_CLUSTER_ID: abcdefghijklmnopqrstuv
+      KAFKA_KRAFT_CLUSTER_ID: 10HT3ErKTyKq9iXHk0EfBg
       KAFKA_CFG_PROCESS_ROLES: broker,controller
       KAFKA_CFG_CONTROLLER_LISTENER_NAMES: CONTROLLER
       KAFKA_CFG_LISTENERS: PLAINTEXT://:9092,CONTROLLER://:9093
@@ -86,20 +86,6 @@ $ docker compose -f docker-compose-multinode.yml up
 ```bash
 version: "3"
 services:
-  kafka-ui:
-    container_name: kafka-ui
-    image: provectuslabs/kafka-ui:latest
-    ports:
-      - 8080:8080
-    depends_on:
-      - kafka01
-      - kafka02
-      - kafka03
-    environment:
-      KAFKA_CLUSTERS_0_NAME: local
-      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka01:9092,kafka02:9092,kafka03:9092
-    networks:
-      - kafka-net
   kafka01:
     image: 'bitnami/kafka:latest'
     volumes:
@@ -110,7 +96,7 @@ services:
     environment:
       ALLOW_PLAINTEXT_LISTENER: yes
       KAFKA_ENABLE_KRAFT: yes
-      KAFKA_KRAFT_CLUSTER_ID: abcdefghijklmnopqrstuv
+      KAFKA_KRAFT_CLUSTER_ID: 10HT3ErKTyKq9iXHk0EfBg
       KAFKA_CFG_PROCESS_ROLES: broker,controller
       KAFKA_CFG_CONTROLLER_LISTENER_NAMES: CONTROLLER
       KAFKA_CFG_LISTENERS: PLAINTEXT://:9092,CONTROLLER://:9093
@@ -130,7 +116,7 @@ services:
     environment:
       ALLOW_PLAINTEXT_LISTENER: yes
       KAFKA_ENABLE_KRAFT: yes
-      KAFKA_KRAFT_CLUSTER_ID: abcdefghijklmnopqrstuv
+      KAFKA_KRAFT_CLUSTER_ID: 10HT3ErKTyKq9iXHk0EfBg
       KAFKA_CFG_PROCESS_ROLES: broker,controller
       KAFKA_CFG_CONTROLLER_LISTENER_NAMES: CONTROLLER
       KAFKA_CFG_LISTENERS: PLAINTEXT://:9092,CONTROLLER://:9093
@@ -150,7 +136,7 @@ services:
     environment:
       ALLOW_PLAINTEXT_LISTENER: yes
       KAFKA_ENABLE_KRAFT: yes
-      KAFKA_KRAFT_CLUSTER_ID: abcdefghijklmnopqrstuv
+      KAFKA_KRAFT_CLUSTER_ID: 10HT3ErKTyKq9iXHk0EfBg
       KAFKA_CFG_PROCESS_ROLES: broker,controller
       KAFKA_CFG_CONTROLLER_LISTENER_NAMES: CONTROLLER
       KAFKA_CFG_LISTENERS: PLAINTEXT://:9092,CONTROLLER://:9093
@@ -167,6 +153,26 @@ volumes:
     driver: local
   kafka03-data:
     driver: local
+networks:
+  kafka-net:
+    external: true
+```
+
+# kafka-ui
+
+```bash
+version: "3"
+services:
+  kafka-ui:
+    container_name: kafka-ui
+    image: provectuslabs/kafka-ui:latest
+    ports:
+      - 8080:8080
+    environment:
+      KAFKA_CLUSTERS_0_NAME: local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka01:9092,kafka02:9092,kafka03:9092
+    networks:
+      - kafka-net
 networks:
   kafka-net:
     external: true
