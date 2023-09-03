@@ -1,6 +1,7 @@
 version: "3"
 services:
   kafka01:
+    container_name: kafka01
     image: 'bitnami/kafka:latest'
     volumes:
       - kafka01-data:/bitnami/kafka
@@ -18,7 +19,10 @@ services:
       KAFKA_CFG_NODE_ID: 0
       KAFKA_CFG_ADVERTISED_LISTENERS: PLAINTEXT://kafka01:9092
       KAFKA_CFG_CONTROLLER_QUORUM_VOTERS: 0@kafka01:9093,1@kafka02:9093,2@kafka03:9093
+    networks:
+      - kafka-net
   kafka02:
+    container_name: kafka02
     image: 'bitnami/kafka:latest'
     volumes:
       - kafka02-data:/bitnami/kafka
@@ -36,7 +40,10 @@ services:
       KAFKA_CFG_NODE_ID: 1
       KAFKA_CFG_ADVERTISED_LISTENERS: PLAINTEXT://kafka02:9092
       KAFKA_CFG_CONTROLLER_QUORUM_VOTERS: 0@kafka01:9093,1@kafka02:9093,2@kafka03:9093
+    networks:
+      - kafka-net
   kafka03:
+    container_name: kafka03
     image: 'bitnami/kafka:latest'
     volumes:
       - kafka03-data:/bitnami/kafka
@@ -54,6 +61,8 @@ services:
       KAFKA_CFG_NODE_ID: 2
       KAFKA_CFG_ADVERTISED_LISTENERS: PLAINTEXT://kafka03:9092
       KAFKA_CFG_CONTROLLER_QUORUM_VOTERS: 0@kafka01:9093,1@kafka02:9093,2@kafka03:9093
+    networks:
+      - kafka-net
 volumes:
   kafka01-data:
     driver: local
@@ -61,3 +70,6 @@ volumes:
     driver: local
   kafka03-data:
     driver: local
+networks:
+  kafka-net:
+    external: true

@@ -4,12 +4,15 @@ services:
     container_name: kafka-ui
     image: provectuslabs/kafka-ui:latest
     ports:
-      - 8080:8080
+      - 8080
     environment:
       KAFKA_CLUSTERS_0_NAME: multi-cluster
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka01:9092,kafka02:9092,kafka03:9092
     networks:
-      - kafka-multi_default
+      - kafka-net
+      - ingress-net
 networks:
-  kafka-multi_default:
+  kafka-net:
+    external: true
+  ingress-net:
     external: true
