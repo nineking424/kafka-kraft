@@ -12,7 +12,7 @@
 docker run --rm bitnami/kafka:latest /opt/bitnami/kafka/bin/kafka-storage.sh random-uuid
 ```
 
-```docker
+```bash
 kafka 16:00:34.66
 kafka 16:00:34.66 Welcome to the Bitnami kafka container
 kafka 16:00:34.66 Subscribe to project updates by watching https://github.com/bitnami/containers
@@ -22,37 +22,15 @@ kafka 16:00:34.67
 10HT3ErKTyKq9iXHk0EfBg
 ```
 
-# Create networks(optional)
-
-```bash
-docker network create kafka-net
-```
-
 # single node
-
-```bash
-$ docker compose -f docker-compose-singlenode.yml up
-```
 
 ```bash
 version: "3"
 services:
-  kafka-ui:
-    container_name: kafka-ui
-    image: provectuslabs/kafka-ui:latest
-    ports:
-      - 8080:8080
-    depends_on:
-      - kafka01
-    environment:
-      KAFKA_CLUSTERS_0_NAME: local
-      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka01:9092
-    networks:
-      - kafka-net
   kafka01:
     image: 'bitnami/kafka:latest'
     volumes:
-      - kafka-data:/bitnami/kafka
+      - kafka01-data:/bitnami/kafka
     ports:
       - '9092'
       - '9093'
@@ -67,21 +45,12 @@ services:
       KAFKA_CFG_NODE_ID: 0
       KAFKA_CFG_ADVERTISED_LISTENERS: PLAINTEXT://kafka01:9092
       KAFKA_CFG_CONTROLLER_QUORUM_VOTERS: 0@kafka01:9093
-    networks:
-      - kafka-net
 volumes:
-  kafka-data:
+  kafka01-data:
     driver: local
-networks:
-  kafka-net:
-    external: true
 ```
 
 # multi node
-
-```bash
-$ docker compose -f docker-compose-multinode.yml up
-```
 
 ```bash
 version: "3"
@@ -104,8 +73,6 @@ services:
       KAFKA_CFG_NODE_ID: 0
       KAFKA_CFG_ADVERTISED_LISTENERS: PLAINTEXT://kafka01:9092
       KAFKA_CFG_CONTROLLER_QUORUM_VOTERS: 0@kafka01:9093,1@kafka02:9093,2@kafka03:9093
-    networks:
-      - kafka-net
   kafka02:
     image: 'bitnami/kafka:latest'
     volumes:
@@ -124,8 +91,6 @@ services:
       KAFKA_CFG_NODE_ID: 1
       KAFKA_CFG_ADVERTISED_LISTENERS: PLAINTEXT://kafka02:9092
       KAFKA_CFG_CONTROLLER_QUORUM_VOTERS: 0@kafka01:9093,1@kafka02:9093,2@kafka03:9093
-    networks:
-      - kafka-net
   kafka03:
     image: 'bitnami/kafka:latest'
     volumes:
@@ -144,8 +109,6 @@ services:
       KAFKA_CFG_NODE_ID: 2
       KAFKA_CFG_ADVERTISED_LISTENERS: PLAINTEXT://kafka03:9092
       KAFKA_CFG_CONTROLLER_QUORUM_VOTERS: 0@kafka01:9093,1@kafka02:9093,2@kafka03:9093
-    networks:
-      - kafka-net
 volumes:
   kafka01-data:
     driver: local
@@ -153,9 +116,6 @@ volumes:
     driver: local
   kafka03-data:
     driver: local
-networks:
-  kafka-net:
-    external: true
 ```
 
 # kafka-ui
@@ -169,11 +129,11 @@ services:
     ports:
       - 8080:8080
     environment:
-      KAFKA_CLUSTERS_0_NAME: local
+      KAFKA_CLUSTERS_0_NAME: multi-cluster
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka01:9092,kafka02:9092,kafka03:9092
     networks:
-      - kafka-net
+      - kafka-multi_default
 networks:
-  kafka-net:
+  kafka-multi_default:
     external: true
 ```
