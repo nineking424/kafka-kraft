@@ -6,6 +6,7 @@
 - [https://levelup.gitconnected.com/kraft-kafka-cluster-with-docker-e79a97d19f2c](https://levelup.gitconnected.com/kraft-kafka-cluster-with-docker-e79a97d19f2c)
 - [https://kafka.apache.org/documentation/#quickstart](https://kafka.apache.org/documentation/#quickstart)
 - [https://softwaremill.com/kafka-visualisation/](https://softwaremill.com/kafka-visualisation/)
+- [https://github.com/confluentinc/demo-scene/blob/74eb51937801a1125d50ee44f9996c6fbe063d83/sonos/docker-compose.yml](https://github.com/confluentinc/demo-scene/blob/74eb51937801a1125d50ee44f9996c6fbe063d83/sonos/docker-compose.yml)
 
 # Generate Cluster UUID(optional)
 
